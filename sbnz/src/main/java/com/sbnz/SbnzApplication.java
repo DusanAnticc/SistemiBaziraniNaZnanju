@@ -19,4 +19,5 @@ public class SbnzApplication {
     public KieContainer kieContainer() {
         return KieServices.Factory.get().getKieClasspathContainer();
     }
+
 }

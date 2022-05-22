@@ -3,6 +3,8 @@ package com.sbnz.app.service.implementation;
 import com.sbnz.app.model.Part;
 import com.sbnz.app.repository.PartRepository;
 import com.sbnz.app.service.contract.IPartService;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,13 @@ public class PartService implements IPartService {
 
     private final PartRepository partRepository;
 
+    private final KieContainer kieContainer;
+
+
     @Autowired
-    public PartService(PartRepository partRepository){
+    public PartService(PartRepository partRepository, KieContainer kieContainer){
         this.partRepository = partRepository;
+        this.kieContainer = kieContainer;
     }
 
     @Override
@@ -30,7 +36,23 @@ public class PartService implements IPartService {
 
     @Override
     public Part create(Part part) {
-        return this.partRepository.save(part);
+        return null;
     }
+
+
+    public Part create(String name) throws Exception {
+
+        Part part = new Part();
+        part.setName(name);
+
+        KieSession kieSession = kieContainer.newKieSession("ruleSession");
+        kieSession.insert(part);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        partRepository.save(part);
+        return part;
+    }
+
 
 }

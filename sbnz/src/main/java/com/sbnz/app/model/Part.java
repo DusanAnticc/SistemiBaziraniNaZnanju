@@ -19,6 +19,7 @@ public class Part {
     private Long id;
     private String name;
 
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "log_id")
     private List<Log> logs;

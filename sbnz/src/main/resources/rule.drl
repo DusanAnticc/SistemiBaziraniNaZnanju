@@ -1,1 +1,11 @@
-import com.sbnz.app.model;
+package com.sbnz.app.controller;
+
+import com.sbnz.app.model.Part;
+
+rule "1"
+
+    when
+    partObject : Part(name == "Dio");
+    then
+    partObject.setName("DrugiDio");
+    end;

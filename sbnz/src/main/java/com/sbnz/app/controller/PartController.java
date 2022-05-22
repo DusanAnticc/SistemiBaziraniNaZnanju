@@ -17,11 +17,13 @@ public class PartController {
     @Autowired
     PartService partService;
 
+
     @PostMapping(value = "")
-    public ResponseEntity<Part> addPart(@RequestBody String PartName) throws Exception {
+    public ResponseEntity<Part> addPart(@RequestBody String partName) throws Exception {
+
+        Part part = partService.create(partName);
 
 
-
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        return new ResponseEntity<>(part, HttpStatus.CREATED);
     }
 }
