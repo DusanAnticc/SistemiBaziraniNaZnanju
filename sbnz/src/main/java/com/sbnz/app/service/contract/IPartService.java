@@ -8,11 +8,7 @@ public interface IPartService {
 
     List<Part> findAll();
 
-    Part findById(Integer id) throws Exception;
+    Part findById(Long id);
 
-    Part create(String entity) throws Exception;
-
-    Part update(Part entity) throws Exception;
-
-    void delete(Integer id) throws Exception;
+    Part create(Part part);
 }

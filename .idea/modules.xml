@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/SistemiBaziraniNaZnanju.iml" filepath="$PROJECT_DIR$/.idea/SistemiBaziraniNaZnanju.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sbnz/sbnz.iml" filepath="$PROJECT_DIR$/sbnz/sbnz.iml" />
+    </modules>
+  </component>
+</project>

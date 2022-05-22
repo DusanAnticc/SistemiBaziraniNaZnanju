@@ -1,9 +1,16 @@
 package com.sbnz.app.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "parts")
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class Part {
 
     @Id
@@ -12,28 +19,8 @@ public class Part {
     private Long id;
     private String name;
 
-    public Part(Long id, String partName) {
-        this.id = id;
-        this.name = partName;
-    }
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "log_id")
+    private List<Log> logs;
 
-    public Part() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        name = name;
-    }
 }

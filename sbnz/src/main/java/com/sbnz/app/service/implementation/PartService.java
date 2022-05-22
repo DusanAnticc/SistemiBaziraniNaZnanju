@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class PartService implements IPartService {
 
-    private PartRepository partRepository;
+    private final PartRepository partRepository;
 
     @Autowired
     public PartService(PartRepository partRepository){
@@ -20,30 +20,17 @@ public class PartService implements IPartService {
 
     @Override
     public List<Part> findAll() {
-        return null;
+        return this.partRepository.findAll();
     }
 
     @Override
-    public Part findById(Integer id) throws Exception {
-        return null;
+    public Part findById(Long id) {
+        return this.partRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Part create(String name) throws Exception {
-        Part part = new Part();
-        part.setName(name);
-
-        partRepository.save(part);
-        return part;
+    public Part create(Part part) {
+        return this.partRepository.save(part);
     }
 
-    @Override
-    public Part update(Part entity) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void delete(Integer id) throws Exception {
-
-    }
 }
