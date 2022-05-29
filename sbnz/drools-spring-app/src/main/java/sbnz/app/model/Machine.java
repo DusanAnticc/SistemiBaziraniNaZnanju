@@ -16,11 +16,13 @@ public class Machine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    private String name;
-
+	private String brand;
+	private String model;
+	private String year;
+	private State state;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "part_id")
     private List<Part> parts;
 
-    private State state;
+    
 }

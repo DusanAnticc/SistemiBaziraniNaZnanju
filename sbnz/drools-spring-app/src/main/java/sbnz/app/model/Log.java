@@ -14,9 +14,10 @@ public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Long id;
-    private Long userId;
-    private Date time;
+    private int id;
+	private String message;
+	private String userName;
+	private Date executionTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "part_id")
