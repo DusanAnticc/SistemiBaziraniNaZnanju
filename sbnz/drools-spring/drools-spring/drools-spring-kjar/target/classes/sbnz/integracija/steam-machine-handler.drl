@@ -1,0 +1,60 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.model.SteamMachine;
+
+rule "Open valve - high steam value"
+	when
+		$sm: SteamMachine( currentSteamValue > 600 )
+	then
+		$v: $sm.getValve();
+		$v.setIsOpen(true);
+		$sm.setValve(v);
+		update($sm);
+end
+
+rule "Close valve - low steam value"
+	when
+		$sm: SteamMachine( currentSteamValue <= 600 )
+	then
+		$v: $sm.getValve();
+		$v.setIsOpen(false);
+		$sm.setValve(v);
+		update($sm);
+end
+
+rule "Open pump - valve opened"
+	when
+		$sm: SteamMachine( valve.isOpen == true )
+	then
+		$p: $sm.getPump();
+		$p.setIsOpen(true);
+		$sm.setPump(p);
+		update($sm);
+end
+
+rule "Close pump - valve closed"
+	when
+		$sm: SteamMachine( valve.isOpen == false )
+	then
+		$p: $sm.getPump();
+		$p.setIsOpen(false);
+		$sm.setPump(p);
+		update($sm);
+end
+
+rule "Close pump and valve - steam machine corrupted"
+	when
+		$sm: SteamMachine( state.State.CORRUPT )
+	then
+		$p: $sm.getPump();
+		$p.setIsOpen(false);
+		$sm.setPump(p);
+		
+		$v: $sm.getValve();
+		$v.setIsOpen(false);
+		$sm.setValve(v);
+		
+		update($sm);
+end
+
+

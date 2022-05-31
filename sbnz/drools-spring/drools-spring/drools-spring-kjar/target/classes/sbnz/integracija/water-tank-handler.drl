@@ -1,0 +1,23 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.model.WaterTank;
+
+rule "Open valve - max water value"
+	when
+		$wt: WaterTank( currentSteamValue == maxValue )
+	then
+		$v: $wt.getInputValve();
+		$v.setIsOpen(false);
+		$wt.setValve(v);
+		update($wt);
+end
+
+rule "Open valve -  water value lower than max"
+	when
+		$wt: WaterTank( currentSteamValue < maxValue, valve.isOpen == false )
+	then
+		$v: $wt.getInputValve();
+		$v.setIsOpen(true);
+		$wt.setValve(v);
+		update($wt);
+end
