@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class WaterTank {
+public class CoalReserves {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,31 +20,19 @@ public class WaterTank {
     private Double maxValue;
     private Double minValue;    
     private Double currentValue;
-
-	private Double mineralsInWater;
-	
-	private Boolean enoughMinerals;
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Valve inputValve;
+    private Furnace furnace;
     
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Valve outputValve;
     
-	public WaterTank(Long id, Double maxValue, Double minValue, Double currentValue, Double mineralsInWater,
-			Valve inputValve, Valve outputValve, Boolean enoughMinerals) {
+	public CoalReserves(Long id, Double maxValue, Double minValue, Double currentValue, Furnace furnace,
+			Valve inputValve, Valve outputValve) {
 		super();
 		this.id = id;
 		this.maxValue = maxValue;
 		this.minValue = minValue;
 		this.currentValue = currentValue;
-		this.mineralsInWater = mineralsInWater;
-		this.inputValve = inputValve;
-		this.outputValve = outputValve;
-		this.enoughMinerals = enoughMinerals;
-	}
-
-	public WaterTank() {
+		this.furnace = furnace;
 	}
 
 	public Long getId() {
@@ -56,7 +44,7 @@ public class WaterTank {
 	}
 
 	public Double getMaxValue() {
-		return this.maxValue;
+		return maxValue;
 	}
 
 	public void setMaxValue(Double maxValue) {
@@ -64,7 +52,7 @@ public class WaterTank {
 	}
 
 	public Double getMinValue() {
-		return this.minValue;
+		return minValue;
 	}
 
 	public void setMinValue(Double minValue) {
@@ -79,38 +67,14 @@ public class WaterTank {
 		this.currentValue = currentValue;
 	}
 
-	public Double getMineralsInWater() {
-		return mineralsInWater;
+	public Furnace getFurnace() {
+		return furnace;
 	}
 
-	public void setMineralsInWater(Double mineralsInWater) {
-		this.mineralsInWater = mineralsInWater;
-	}
-    
-	 public Valve getInputValve() {
-			return inputValve;
+	public void setFurnace(Furnace furnace) {
+		this.furnace = furnace;
 	}
 
-	public void setInputValve(Valve inputValve) {
-		this.inputValve = inputValve;
-	}
-
-	public Valve getOutputValve() {
-		return outputValve;
-	}
-
-	public void setOutputValve(Valve outputValve) {
-		this.outputValve = outputValve;
-	}
-
-	public Boolean getEnoughMinerals() {
-		return enoughMinerals;
-	}
-
-	public void setEnoughMinerals(Boolean enoughMinerals) {
-		this.enoughMinerals = enoughMinerals;
-	}
 	
-	
-	
+
 }

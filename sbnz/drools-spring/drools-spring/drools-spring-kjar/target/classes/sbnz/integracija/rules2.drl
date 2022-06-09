@@ -1,11 +1,36 @@
 package sbnz.integracija;
+import sbnz.integracija.example.model.Log;
+import sbnz.integracija.example.model.LogTemperatures;
+import java.util.List;
+import sbnz.integracija.example.model.SteamMachine;
 
-import sbnz.integracija.example.facts.Item;
+import java.util.ArrayList;
+import java.util.Map;
 
-rule "Classify Item - High Range"
-    when
-        $i: Item( cost > 300, category == Category.NA )
-    then
-        $i.setCategory(Item.Category.SPECIAL_MIDHIGH_RANGE);
-        update($i);
+dialect 'java'
+
+rule "reportSuspiciousBehavior"
+	agenda-group "reporSuspiciousBehavior"
+	when
+	    $machina : SteamMachine()
+		$logs : List() from collect(Log(steamMachine.getId() == $machina.getId()))
+	then
+	if($logs.size() > 2)
+		System.out.println("machines( " + $machina + " ) need service");
+end
+
+rule "MeasuredTemperatureMax"
+	agenda-group "MeasuredTemperature"
+	when
+		$maxTemp:  Number() from accumulate( LogTemperatures($t: temperatures),max($t))
+	then
+		System.out.println($maxTemp);
+end
+
+rule "MeasuredTemperatureMin"
+	agenda-group "MeasuredTemperature"
+	when
+		$minTemp:  Number() from accumulate( LogTemperatures($t: temperatures),min($t))
+	then
+		System.out.println($minTemp);
 end

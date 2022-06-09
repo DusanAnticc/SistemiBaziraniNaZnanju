@@ -26,6 +26,12 @@ public class Valve {
     
 	public Valve() {
 	}
+	
+	public Valve(Valve valve) {
+		super();
+		this.id = valve.getId();
+		this.isOpen = valve.getIsOpen();
+	}
 
 	public Long getId() {
 		return id;

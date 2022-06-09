@@ -47,7 +47,7 @@ public class SteamMachineService implements ISteamMachineService {
 	@Override
 	public SteamMachine updateSteamValue(Long id, Long steamValue) {
 		SteamMachine steamMachine = this.findById(id);
-		// steamMachine.setCurrentSteamValue(steamValue);
+		steamMachine.setCurrentSteamValue(steamValue);
 		
 		KieSession kieSession = kieContainer.newKieSession();
 		kieSession.insert(steamMachine);

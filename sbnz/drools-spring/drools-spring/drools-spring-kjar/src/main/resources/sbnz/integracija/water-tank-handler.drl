@@ -1,23 +1,50 @@
 package sbnz.integracija;
 
 import sbnz.integracija.example.model.WaterTank;
+import sbnz.integracija.example.model.Pump;
+import sbnz.integracija.example.model.Valve;
+import sbnz.integracija.example.model.enums.State;
 
-rule "Open valve - max water value"
+rule "Close valve - max water value"
 	when
-		$wt: WaterTank( currentSteamValue == maxValue )
+		$wt: WaterTank( currentValue == maxValue, $v: inputValve )
 	then
-		$v: $wt.getInputValve();
 		$v.setIsOpen(false);
-		$wt.setValve(v);
-		update($wt);
+		modify($wt){
+		setInputValve($v);
+		}
 end
 
 rule "Open valve -  water value lower than max"
 	when
-		$wt: WaterTank( currentSteamValue < maxValue, valve.isOpen == false )
+		$wt: WaterTank( currentValue < maxValue,  $c:currentValue, $v: inputValve )
 	then
-		$v: $wt.getInputValve();
 		$v.setIsOpen(true);
-		$wt.setValve(v);
-		update($wt);
+		$wt.setCurrentValue($c + 1000);
+		modify($wt){
+		setInputValve($v),
+		setCurrentValue(getCurrentValue());
+		}
+		System.out.println($c);
+end
+
+
+rule "minerals in water - ok value open flag"
+	no-loop
+	when
+		$wt: WaterTank( mineralsInWater > 5, mineralsInWater <= 10 , $m: enoughMinerals )
+	then
+		$wt.setEnoughMinerals(true);
+		modify($wt){
+		}
+end
+
+rule "minerals in water - bad value close flag"
+	no-loop
+	when
+		$wt: WaterTank( mineralsInWater < 5, mineralsInWater >= 10 , $m: enoughMinerals )
+	then
+		$wt.setEnoughMinerals(false);
+		modify($wt){
+		}
 end

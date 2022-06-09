@@ -1,13 +1,12 @@
 package sbnz.integracija;
 
 import sbnz.integracija.example.facts.Item;
-import sbnz.integracija.example.model.SteamMachine;
 
-rule "Classify Item - Low Range
+
+rule "Classify Item - Low Range"
     when
         $i: Item( cost <= 300, category == Category.NA )
     then
-		System.out.println("dosao");
-        $i.setCategory(Item.Category.MID_RANGE);
+        $i.setCategory(Item.Category.LOW_RANGE);
         update($i);
 end

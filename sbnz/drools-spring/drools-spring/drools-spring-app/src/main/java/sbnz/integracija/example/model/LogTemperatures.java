@@ -14,36 +14,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Log {
+public class LogTemperatures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-	private String message;
-	private String userName;
-	private Long executionTime;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "part_id")
-    private Part part;
     
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private SteamMachine steamMachine;
+    
+	private Long temperatures;
 
-	public Log() {
-		
-	}
-
-	public Log(Long id, String message, String userName, Long executionTime, Part part, SteamMachine steamMachine) {
+	public LogTemperatures(Long id, SteamMachine steamMachine, Long temperatures) {
 		super();
 		this.id = id;
-		this.message = message;
-		this.userName = userName;
-		this.executionTime = executionTime;
-		this.part = part;
 		this.steamMachine = steamMachine;
+		this.temperatures = temperatures;
 	}
-
+	
+	public LogTemperatures() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -53,38 +44,6 @@ public class Log {
 		this.id = id;
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public Long getExecutionTime() {
-		return executionTime;
-	}
-
-	public void setExecutionTime(Long executionTime) {
-		this.executionTime = executionTime;
-	}
-
-	public Part getPart() {
-		return part;
-	}
-
-	public void setPart(Part part) {
-		this.part = part;
-	}
-
 	public SteamMachine getSteamMachine() {
 		return steamMachine;
 	}
@@ -92,7 +51,13 @@ public class Log {
 	public void setSteamMachine(SteamMachine steamMachine) {
 		this.steamMachine = steamMachine;
 	}
-    
+
+	public Long getTemperatures() {
+		return temperatures;
+	}
+
+	public void setTemperatures(Long temperatures) {
+		this.temperatures = temperatures;
+	}
 	
-    
 }

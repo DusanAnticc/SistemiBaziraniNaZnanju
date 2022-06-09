@@ -1,7 +1,5 @@
 package sbnz.integracija.example.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,41 +7,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Part {
+public class Furnace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    private String name;
 
-	public Part() {
-		
-	}
+    
+    private Double Temperatures;
 
-	public Part(Long id, String name) {
+
+	public Furnace(Long id, Double temperatures) {
 		super();
 		this.id = id;
-		this.name = name;
+		Temperatures = temperatures;
+	}
+    
+	public Furnace() {
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public String getName() {
-		return name;
+	public Double getTemperatures() {
+		return Temperatures;
 	}
 
-
-	public void setName(String name) {
-		this.name = name;
+	public void setTemperatures(Double temperatures) {
+		Temperatures = temperatures;
 	}
+
+	
 
 }

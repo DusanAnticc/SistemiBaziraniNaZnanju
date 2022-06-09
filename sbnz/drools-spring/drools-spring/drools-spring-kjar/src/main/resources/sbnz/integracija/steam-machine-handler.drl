@@ -1,60 +1,70 @@
 package sbnz.integracija;
 
 import sbnz.integracija.example.model.SteamMachine;
+import sbnz.integracija.example.model.WaterTank;
+import sbnz.integracija.example.model.Pump;
+import sbnz.integracija.example.model.Valve;
+import sbnz.integracija.example.model.enums.State;
 
 rule "Open valve - high steam value"
+	no-loop
 	when
-		$sm: SteamMachine( currentSteamValue > 600 )
+		$sm: SteamMachine( currentSteamValue > 500 && waterTank.getEnoughMinerals() == true && waterTank.currentValue > waterTank.minValue , $v: valve, $wt: waterTank, $vv: waterTank.outputValve )
 	then
-		$v: $sm.getValve();
 		$v.setIsOpen(true);
-		$sm.setValve(v);
-		update($sm);
+		$vv.setIsOpen(true);
+		$wt.setOutputValve($vv);
+		modify($sm){
+		setValve($v),
+		setWaterTank($wt);
+		}
 end
 
 rule "Close valve - low steam value"
+	no-loop
 	when
-		$sm: SteamMachine( currentSteamValue <= 600 )
+		$sm: SteamMachine( currentSteamValue <= 500 || waterTank.getEnoughMinerals() == false || waterTank.currentValue < waterTank.minValue,$v: valve , $wt: waterTank , $vv: waterTank.outputValve )
 	then
-		$v: $sm.getValve();
 		$v.setIsOpen(false);
-		$sm.setValve(v);
-		update($sm);
+		$vv.setIsOpen(false);
+		$wt.setOutputValve($vv);
+		modify($sm){
+		setValve($v),		
+		setWaterTank($wt);
+		}
 end
 
 rule "Open pump - valve opened"
+	no-loop
 	when
-		$sm: SteamMachine( valve.isOpen == true )
+		$sm: SteamMachine( valve.getIsOpen() == true, $p: pump )
 	then
-		$p: $sm.getPump();
 		$p.setIsOpen(true);
-		$sm.setPump(p);
-		update($sm);
+		modify($sm){
+		setPump($p);
+		}
 end
 
 rule "Close pump - valve closed"
+	no-loop
 	when
-		$sm: SteamMachine( valve.isOpen == false )
+		$sm: SteamMachine( valve.getIsOpen() == false, $p: pump )
 	then
-		$p: $sm.getPump();
 		$p.setIsOpen(false);
-		$sm.setPump(p);
-		update($sm);
+		modify($sm){
+		setPump($p);
+		}
 end
+
 
 rule "Close pump and valve - steam machine corrupted"
+	no-loop
 	when
-		$sm: SteamMachine( state.State.CORRUPT )
+		$sm: SteamMachine( state == State.CORRUPT ,$p: pump, $v: valve )
 	then
-		$p: $sm.getPump();
 		$p.setIsOpen(false);
-		$sm.setPump(p);
-		
-		$v: $sm.getValve();
 		$v.setIsOpen(false);
-		$sm.setValve(v);
-		
-		update($sm);
+		modify($sm){
+		setPump($p);
+		setValve($v);
 end
-
-
