@@ -1,5 +1,3 @@
---INSERT INTO role (name) VALUES ('korisnik');
-
 INSERT INTO pump (is_open) VALUES (false);
 
 INSERT INTO valve (is_open) VALUES (false);
@@ -77,4 +75,15 @@ INSERT INTO log_temperatures(steam_machine_id, temperatures) VALUES (3, 650);
 INSERT INTO log_temperatures(steam_machine_id, temperatures) VALUES (3, 350);
 
 INSERT INTO log_temperatures(steam_machine_id, temperatures) VALUES (3, 850);
+
+INSERT INTO role (name) values ('ROLE_WORKER');
+
+INSERT INTO role (name) values ('ROLE_GUEST');
+
+--INSERT INTO users (first_name, last_name, username, email, password, deleted, role_id)
+--values ('Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '1234', false, 1);
+--
+--INSERT INTO users (first_name, last_name, username, email, password, deleted, role_id)
+--values ('Milana', 'Milosevic', 'milana', 'milana@gmail.com', '1234', false, 2);
+
 

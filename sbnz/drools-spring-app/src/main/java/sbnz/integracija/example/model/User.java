@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -18,11 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public abstract class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     private String firstName;
@@ -46,26 +46,8 @@ public class User implements UserDetails {
 
     private Boolean deleted = Boolean.FALSE;
     
+
     private Integer penalty = 0;
-    
-    
-    public User(Long id, String firstName, String lastName, String username, String email, String password, Role role,
-			Boolean deleted) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.role = role;
-		this.deleted = deleted;
-	}
-    
-    public User() {
-		
-	}
-    
     
 
 	public Long getId() {
@@ -151,13 +133,30 @@ public class User implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.username;
 	}
+
+	public User(Long id, String firstName, String lastName, String username, String email, String password, Role role,
+			Boolean deleted) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.deleted = deleted;
+	}
+
+	public User() {
+		super();
+	}
+	
+	
 }
