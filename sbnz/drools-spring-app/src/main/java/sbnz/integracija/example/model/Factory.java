@@ -19,7 +19,7 @@ public class Factory {
     @OneToMany()
     @JoinColumn(name = "factory_id")
     private List<SteamMachine> machines;
-
+    
 	public Factory() {
 		
 	}

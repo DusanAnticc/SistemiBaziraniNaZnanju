@@ -14,6 +14,7 @@ rule "Open valve - high steam value"
 		$v.setIsOpen(true);
 		$vv.setIsOpen(true);
 		$wt.setOutputValve($vv);
+		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v + " is open || valve " + $vv + " is open");
 		modify($sm){
 		setValve($v),
 		setWaterTank($wt);
@@ -28,6 +29,7 @@ rule "Close valve - low steam value"
 		$v.setIsOpen(false);
 		$vv.setIsOpen(false);
 		$wt.setOutputValve($vv);
+		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v + " is close || valve " + $vv + " is close");
 		modify($sm){
 		setValve($v),		
 		setWaterTank($wt);
@@ -37,9 +39,10 @@ end
 rule "Open pump - valve opened"
 	no-loop
 	when
-		$sm: SteamMachine( valve.getIsOpen() == true, $p: pump )
+		$sm: SteamMachine(valve.getIsOpen() == true,$v: valve, $p: pump )
 	then
 		$p.setIsOpen(true);
+		System.out.println("valve: "+ $v + " is open || pump " + $p + " is open");
 		modify($sm){
 		setPump($p);
 		}
@@ -48,28 +51,30 @@ end
 rule "Close pump - valve closed"
 	no-loop
 	when
-		$sm: SteamMachine( valve.getIsOpen() == false, $p: pump )
+		$sm: SteamMachine( valve.getIsOpen() == false,$v: valve, $p: pump )
 	then
 		$p.setIsOpen(false);
+		System.out.println("valve: "+ $v + " is close || pump " + $p + " is close");
 		modify($sm){
 		setPump($p);
 		}
 end
 
 
-rule "Close pump and valve - steam machine corrupted"
-	no-loop
-	when
-		$sm: SteamMachine( state == State.CORRUPT ,$p: pump, $v: valve )
-	then
-		modify($p){
-		setIsOpen(false);
-		}
-		modify($v){
-		setIsOpen(false);
-		}
-		modify($sm){
-		setPump($p),
-		setValve($v);
-		}
-end
+//rule "Close pump and valve - steam machine corrupted"
+//	no-loop
+//	when
+//		$sm: SteamMachine( state == State.CORRUPT ,$p: pump, $v: valve )
+//	then
+//	System.out.println("machine "+ $sm + "is corruped - close all pumps and vents");
+//		modify($p){
+//		setIsOpen(false);
+//		}
+//		modify($v){
+//		setIsOpen(false);
+//		}
+//		modify($sm){
+//		setPump($p),
+//		setValve($v);
+//		}
+//end

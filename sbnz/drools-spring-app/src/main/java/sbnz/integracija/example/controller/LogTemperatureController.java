@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.integracija.example.model.LogTemperatures;
+import sbnz.integracija.example.model.SteamMachine;
 import sbnz.integracija.example.service.contract.ISteamMachineService;
 import sbnz.integracija.example.service.implementation.LogTemperatureService;
+import sbnz.integracija.example.service.implementation.SteamMachineService;
 
 
 @RestController
@@ -26,13 +28,17 @@ public class LogTemperatureController {
     @Autowired
     LogTemperatureService logTemperatureService;
     
+    @Autowired
+    SteamMachineService steamMachineService;
+    
     private final KieContainer kieContainer;
+    
 
 	@Autowired
-	public LogTemperatureController(KieContainer kieContainer, ISteamMachineService steamMachineService) {
+	public LogTemperatureController(KieContainer kieContainer,SteamMachineService steamMachineService) {
 		this.kieContainer = kieContainer;
+		this.steamMachineService = steamMachineService;
 	}
-
 	
     @GetMapping(value = "")
     public ResponseEntity<List<LogTemperatures>> getLogs() throws Exception {
@@ -40,17 +46,20 @@ public class LogTemperatureController {
       List<LogTemperatures> logs = new ArrayList<LogTemperatures>();
       logs = logTemperatureService.findAll();
       
+      List<SteamMachine> machines = new ArrayList<SteamMachine>();
+      machines = steamMachineService.findAll();
+
       KieSession kieSession = kieContainer.newKieSession("reporSuspiciousBehavior");
       
-      kieSession.insert(logs.get(0));
-      kieSession.insert(logs.get(1));
-      kieSession.insert(logs.get(2));
-      kieSession.insert(logs.get(3));
-      kieSession.insert(logs.get(4));
+      for (int j = 0; j < machines.size(); j++) {
+    	  kieSession.insert(machines.get(j));
+    	}
 
-      
-      kieSession.getAgenda().getAgendaGroup("MeasuredTemperature").setFocus();
-      int i = kieSession.fireAllRules();
+      for(LogTemperatures log: logs) {
+    	  kieSession.insert(log);
+      }
+      kieSession.fireAllRules();
+
       kieSession.dispose();
       return new ResponseEntity<>(logs, HttpStatus.CREATED);
     }

@@ -1,6 +1,9 @@
 package sbnz.integracija.example.controller;
 
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,12 +17,18 @@ import sbnz.integracija.example.service.implementation.SampleAppService;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/steam-machine")
 public class SteamMachineController {
 
-    private final ISteamMachineService steamMachineService;
-    private final SampleAppService sampleService;
+	@Autowired
+    ISteamMachineService steamMachineService;
+	
+	@Autowired
+    SampleAppService sampleService;
 
+	    
+	 
     @Autowired
     public SteamMachineController(ISteamMachineService steamMachineService, SampleAppService sampleService) {
 		super();

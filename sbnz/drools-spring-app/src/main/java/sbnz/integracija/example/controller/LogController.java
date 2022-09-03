@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.integracija.example.model.Log;
+import sbnz.integracija.example.model.LogTemperatures;
 import sbnz.integracija.example.model.SteamMachine;
 import sbnz.integracija.example.repository.SteamMachineRepository;
 import sbnz.integracija.example.service.contract.ISteamMachineService;
@@ -51,13 +52,15 @@ public class LogController {
       KieSession kieSession = kieContainer.newKieSession("reporSuspiciousBehavior");
       
       
-      kieSession.insert(machines.get(0));
-      kieSession.insert(logs.get(0));
-      kieSession.insert(logs.get(1));
-      kieSession.insert(logs.get(2));
-      
-      kieSession.getAgenda().getAgendaGroup("reporSuspiciousBehavior").setFocus();
-      int i = kieSession.fireAllRules();
+      for (int j = 0; j < machines.size(); j++) {
+    	  kieSession.insert(machines.get(j));
+    	}
+
+      for(Log log: logs) {
+    	  kieSession.insert(log);
+      }
+      kieSession.fireAllRules();
+
       kieSession.dispose();
       return new ResponseEntity<>(logs, HttpStatus.CREATED);
     }

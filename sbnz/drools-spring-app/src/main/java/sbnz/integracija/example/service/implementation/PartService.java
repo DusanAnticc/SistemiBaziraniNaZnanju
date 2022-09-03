@@ -15,13 +15,11 @@ public class PartService implements IPartService {
 
     private final PartRepository partRepository;
 
-    private final KieContainer kieContainer;
 
 
     @Autowired
-    public PartService(PartRepository partRepository, KieContainer kieContainer){
+    public PartService(PartRepository partRepository){
         this.partRepository = partRepository;
-        this.kieContainer = kieContainer;
     }
 
     @Override
