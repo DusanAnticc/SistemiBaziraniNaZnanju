@@ -33,6 +33,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String email;
+    
+    @Column(name = "prosecuted", nullable = false)
+    private boolean prosecuted = false;
 
     @Column(nullable = false)
     private String password;
@@ -43,7 +46,9 @@ public class User implements UserDetails {
 
     private Boolean deleted = Boolean.FALSE;
     
-
+    private Integer penalty = 0;
+    
+    
     public User(Long id, String firstName, String lastName, String username, String email, String password, Role role,
 			Boolean deleted) {
 		super();

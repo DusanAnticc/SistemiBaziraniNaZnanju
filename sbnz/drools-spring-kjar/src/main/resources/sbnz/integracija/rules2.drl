@@ -10,13 +10,15 @@ import java.util.Map;
 dialect 'java'
 
 rule "reportSuspiciousBehavior"
-	agenda-group "reporSuspiciousBehavior"
 	when
-	    $machina : SteamMachine()
-		$logs : List() from collect(Log(steamMachine.getId() == $machina.getId()))
+		$machine : SteamMachine($id: id)
+		$logs : List() from collect(LogTemperatures())
+		Number($num: intValue > 2 ) from accumulate ( 
+            $gpp: LogTemperatures ($logId: steamMachine.id, $logId == $id, temperatures > 500) from $logs,
+            count($gpp)
+        )
 	then
-	if($logs.size() > 2)
-		System.out.println("machines( " + $machina + " ) need service");
+		System.out.println("masina koja ima id:" + $id + " se pregrijala " + $num);
 end
 
 rule "MeasuredTemperatureMax"
@@ -24,7 +26,7 @@ rule "MeasuredTemperatureMax"
 	when
 		$maxTemp:  Number() from accumulate( LogTemperatures($t: temperatures),max($t))
 	then
-		System.out.println($maxTemp);
+		System.out.println("max teperature is: " + $maxTemp);
 end
 
 rule "MeasuredTemperatureMin"
@@ -32,5 +34,21 @@ rule "MeasuredTemperatureMin"
 	when
 		$minTemp:  Number() from accumulate( LogTemperatures($t: temperatures),min($t))
 	then
-		System.out.println($minTemp);
+		System.out.println("min teperature is: " + $minTemp);
+end
+
+rule "reportFailures"
+	when
+		$machine : SteamMachine($id: id)
+		$logs : List() from collect(Log())
+		$pump : Pump($pid:id)
+		$valve: Valve($vid:id)
+		Number($num: intValue > 2 ) from accumulate ( 
+		//dodati i provjeru za vrijeme, unazad recimo 7 dana
+		// koji dio se koliko puta kvario
+            $gpp: Log($logId: steamMachine.id, $logId == $id) from $logs,
+            count($gpp)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " se pregrijala " + $num);
 end

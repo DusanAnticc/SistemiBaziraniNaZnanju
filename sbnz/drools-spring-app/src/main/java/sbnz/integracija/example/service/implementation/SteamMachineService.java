@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,13 @@ public class SteamMachineService implements ISteamMachineService {
 
     private final SteamMachineRepository steamMachineRepository;
 
-    private final KieContainer kieContainer;
+	private final KieContainer kieContainer;
 
 
     @Autowired
-    public SteamMachineService(SteamMachineRepository steamMachineRepository, KieContainer kieContainer){
+    public SteamMachineService(KieContainer kieContainer,SteamMachineRepository steamMachineRepository){
         this.steamMachineRepository = steamMachineRepository;
-        this.kieContainer = kieContainer;
+		this.kieContainer = kieContainer;
     }
 
 
@@ -48,8 +49,7 @@ public class SteamMachineService implements ISteamMachineService {
 	public SteamMachine updateSteamValue(Long id, Long steamValue) {
 		SteamMachine steamMachine = this.findById(id);
 		steamMachine.setCurrentSteamValue(steamValue);
-		
-		KieSession kieSession = kieContainer.newKieSession();
+    	KieSession kieSession = kieContainer.newKieSession("reporSuspiciousBehavior");
 		kieSession.insert(steamMachine);
 		kieSession.fireAllRules();
 		kieSession.dispose();
