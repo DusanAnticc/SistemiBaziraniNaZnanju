@@ -3,6 +3,6 @@ package sbnz.integracija.example.model;
 import javax.persistence.Entity;
 
 @Entity
-public class Guest extends User{
-
+public class Guest extends User {
+	
 }
