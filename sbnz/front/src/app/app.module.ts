@@ -12,6 +12,8 @@ import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { WorkerModule } from './modules/worker/worker.module';
+import { GuestModule } from './modules/guest/guest.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     HttpClientModule,
     BrowserAnimationsModule,
     OverlayModule,
+    GuestModule, 
+    WorkerModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
     })

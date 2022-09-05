@@ -4,10 +4,22 @@ import sbnz.integracija.example.model.User;
 
 import java.util.List;
 
-public interface IUserService {
-    List<User> findAll();
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-    User findById(Long id);
+public interface IUserService extends UserDetailsService  {
+	List<User> findAll();
 
-    User create(User user);
+    void delete(Long id);
+
+    void deleteByUsername(String username);
+
+    User findOne(Long id);
+
+    User findByUsername(String username);
+
+    User save(User entity);
+
+    User create(User entity) throws Exception;
+
 }

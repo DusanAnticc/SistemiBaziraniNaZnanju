@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginGuard } from './guards/login.guard';
 import { BaseLayoutComponent } from './pages/base-layout/base-layout.component';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -15,11 +16,16 @@ const routes: Routes = [
     component: BaseLayoutComponent,
     canActivate: [LoginGuard],
     children:[
-      // {
-      //   path: "admin",
-      //   loadChildren: () =>
-      //     import("../admin/admin.module").then((a) => a.AdminModule),
-      // }
+      {
+        path: "worker",
+        loadChildren: () =>
+          import("./modules/worker/worker.module").then((w) => w.WorkerModule),
+      },
+      {
+        path: "guest",
+        loadChildren: () =>
+          import("./modules/guest/guest.module").then((g) => g.GuestModule),
+      }
     ]
   },
   {
@@ -29,7 +35,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

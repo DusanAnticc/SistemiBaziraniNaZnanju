@@ -14,8 +14,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(auth: Login): Observable<string> {
-    return this.http.post<string>("backend/api/auth/login", auth, {
+  login(auth: Login): Observable<Token> {
+    return this.http.post<Token>("http://localhost:8081/api/auth/login", auth, {
       headers: this.headers,
       responseType: "json",
     });
@@ -23,7 +23,7 @@ export class AuthService {
 
   setCurrentUser(token: Token): void {
 
-    this.http.get<User>("backend/api/auth/getLoggedIn", {
+    this.http.get<User>("http://localhost:8081/api/auth/getLoggedIn", {
       headers: this.headers,
       responseType: "json",
     }).subscribe(response => {
@@ -43,7 +43,7 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("userToken");
 
-    return this.http.get("backend/api/auth/logOut", {
+    return this.http.get("http://localhost:8081/api/auth/logOut", {
       headers: this.headers,
       responseType: "text",
     });

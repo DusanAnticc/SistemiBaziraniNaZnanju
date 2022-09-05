@@ -105,6 +105,23 @@ public abstract class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+
+	public boolean isProsecuted() {
+		return prosecuted;
+	}
+
+	public void setProsecuted(boolean prosecuted) {
+		this.prosecuted = prosecuted;
+	}
+
+	public Integer getPenalty() {
+		return penalty;
+	}
+
+	public void setPenalty(Integer penalty) {
+		this.penalty = penalty;
+	}
 
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -20,7 +20,7 @@ export class LoginGuard implements CanActivate {
     }
 
     const info = jwt.decodeToken(token);
-    const roles: string[] = expectedRoles.split("|", 2);
+    // const roles: string[] = expectedRoles.split("|", 2);
 
     
     if(info.sub !== this.auth.getCurrentUser()?.username){
@@ -33,11 +33,10 @@ export class LoginGuard implements CanActivate {
     const currentUserRole = this.auth.getCurrentUser()?.dtype!;
 
 
-    if (roles.indexOf(currentUserRole) === -1) {
-      this.router.navigate(["login"]);
-      return false;
-    }
-    
+    // if (roles.indexOf(currentUserRole) === -1) {
+    //   this.router.navigate(["login"]);
+    //   return false;
+    // }
     
     return true;
   }
