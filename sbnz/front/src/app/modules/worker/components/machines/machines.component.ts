@@ -24,7 +24,6 @@ export class MachinesComponent implements OnInit {
   ngOnInit(): void {
     this.workerService.getAllStramMachines().subscribe((response) => {
       this.steamMachines = response;
-      console.log(this.steamMachines)
     });
   }
 

@@ -21,7 +21,6 @@ export class FailureHistoryModalComponent implements OnInit {
   ngOnInit(): void {
     this.workerService.getAllLogsForMachine(this.machineId).subscribe((response) => {
       this.logs = response;
-      console.log(this.logs)
     });
   }
 
