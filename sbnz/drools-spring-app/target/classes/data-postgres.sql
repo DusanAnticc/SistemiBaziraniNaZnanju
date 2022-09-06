@@ -91,6 +91,6 @@ INSERT INTO users (dtype, first_name, last_name, username, email, password, dele
 values ('Worker', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 1, false, 0);
 
 INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty, discount, category,owes)
-values ('Guest', 'Milana', 'Milosevic', 'milana', 'milana@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 2, false, 0 , 0, 1,500);
+values ('Guest', 'Milana', 'Milosevic', 'milana', 'milana@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 2, false, 0 , 10, 1,500);
 
 

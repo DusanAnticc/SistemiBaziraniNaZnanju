@@ -21,7 +21,9 @@ public class GuestService implements IGuestService {
     public Long PayBill(Long userId)
     {
     	Guest user = (Guest) userRepository.findById(userId).orElse(null);
-
+    	System.out.println(user);
+    	System.out.println(user.getCategory());
+    	System.out.println(user.getDiscount());
     	if(user.getCategory()==null)
     	{
     		Long owes = user.getOwes();
@@ -31,7 +33,7 @@ public class GuestService implements IGuestService {
     	}
     	else
     	{
-    		Long owes = user.getOwes()*(1/user.getDiscount());
+    		Long owes = user.getOwes()/user.getDiscount();
     		user.setOwes((long) 0);
     		userRepository.save(user);
     		return owes;
