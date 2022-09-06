@@ -14,4 +14,13 @@ export class GuestService {
     private http: HttpClient,
     private toastr: ToastrService
   ) { }
+
+  pay(userId: number): void{
+    this.http.post<Request>("http://localhost:8081/api/guest/payBill/" + userId, {
+      headers: this.headers,
+      responseType: "json",
+    }).subscribe(() => {
+      this.toastr.success("Bill payed!");
+    });
+  }
 }
