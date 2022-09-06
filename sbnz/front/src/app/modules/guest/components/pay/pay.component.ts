@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { GuestService } from '../../services/guest.service';
 
@@ -10,7 +9,7 @@ import { GuestService } from '../../services/guest.service';
 })
 export class PayComponent implements OnInit {
 
-  user: User | null;
+  user: any;
 
   constructor(
     private guestService: GuestService,
@@ -22,7 +21,11 @@ export class PayComponent implements OnInit {
   }
 
   pay() {
-
+    if (this.user != null) {
+      this.guestService.pay(this.user.id);
+      this.user.owes = 0;
+      window.location.reload();
+    }
   }
 
 }
