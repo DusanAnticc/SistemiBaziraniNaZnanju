@@ -42,10 +42,10 @@ public class UserToUserDTO implements Converter<User, UserDTO> {
         }
 
         dto.setDtype(dtype);
-        dto.setEnergyProduced(energyProduced);
-        dto.setCategory(category);
-        dto.setDiscount(discount);
-        dto.setOwes(owes);
+        if(energyProduced != null) dto.setEnergyProduced(energyProduced);
+        if(category != null) dto.setCategory(category);
+        if(discount != null) dto.setDiscount(discount);
+        if(owes != null) dto.setOwes(owes);
         
         return dto;
     }
