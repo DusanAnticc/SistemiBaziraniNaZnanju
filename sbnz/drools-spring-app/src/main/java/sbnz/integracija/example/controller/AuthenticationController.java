@@ -12,7 +12,6 @@ import sbnz.integracija.example.dto.UserTokenState;
 import sbnz.integracija.example.model.User;
 import sbnz.integracija.example.security.TokenUtils;
 import sbnz.integracija.example.security.auth.JwtAuthenticationRequest;
-import sbnz.integracija.example.service.contract.IUserService;
 import sbnz.integracija.example.support.UserToUserDTO;
 
 import org.springframework.http.HttpStatus;
@@ -34,16 +33,12 @@ public class AuthenticationController {
 
     private final TokenUtils tokenUtils;
     private final AuthenticationManager authenticationManager;
-
-    private final IUserService userService;
     private final UserToUserDTO userToUserDTO;
 
     @Autowired
-    public AuthenticationController(TokenUtils t, AuthenticationManager aM, IUserService us,
-                                    UserToUserDTO userToUserDTO){
+    public AuthenticationController(TokenUtils t, AuthenticationManager aM, UserToUserDTO userToUserDTO){
         this.tokenUtils = t;
         this.authenticationManager = aM;
-        this.userService = us;
         this.userToUserDTO = userToUserDTO;
     }
 
@@ -85,7 +80,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity logoutUser() {
+    public ResponseEntity<?> logoutUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){

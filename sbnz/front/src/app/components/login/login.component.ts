@@ -40,6 +40,7 @@ export class LoginComponent {
             const role = this.authService.getCurrentUser()?.dtype!;
 
             if(role === "Worker") this.router.navigate(["worker/machines"]);
+            if(role === "Guest") this.router.navigate(["guest/pay"]);
           }
         },
         error: (error) => {

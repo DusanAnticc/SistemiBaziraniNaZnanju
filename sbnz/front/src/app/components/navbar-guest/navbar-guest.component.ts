@@ -19,4 +19,8 @@ export class NavbarGuestComponent {
     this.router.navigate(["login"]);
   }
 
+  pay() {
+    this.router.navigate(["guest/pay"]);
+  }
+
 }
