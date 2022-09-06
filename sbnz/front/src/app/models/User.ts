@@ -1,9 +1,14 @@
 export interface User{
     dtype : string,
-    name : string,
+    firstName : string,
     lastName : string, 
-    emailAddress : string,
+    email : string,
     username : string,
     password : string,
-    deleted : boolean
+    deleted : boolean,
+    energyProduced : number,
+	category : string,
+	discount : number,
+	owes : number,
+    prosecuted : boolean
 }

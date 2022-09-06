@@ -5,7 +5,6 @@ import { SteamMachine } from 'src/app/models/SteamMachine';
 import { ToastrService } from 'ngx-toastr';
 import { TemplateModel } from 'src/app/models/TemplateModel';
 import { Log } from 'src/app/models/Log';
-import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'

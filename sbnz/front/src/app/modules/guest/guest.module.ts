@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { GuestRoutes } from './guest.routes';
+import { PayComponent } from './components/pay/pay.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PayComponent
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

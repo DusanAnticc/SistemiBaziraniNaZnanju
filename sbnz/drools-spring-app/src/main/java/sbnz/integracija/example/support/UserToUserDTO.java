@@ -24,13 +24,29 @@ public class UserToUserDTO implements Converter<User, UserDTO> {
         dto.setUsername(user.getUsername());
         dto.setProsecuted(user.isProsecuted());
         if(user.getPenalty() != null) dto.setPenalty(user.getPenalty());
+        
         String dtype = "";
+        Long energyProduced = null;
+    	String category = null;
+    	Long discount = null;
+    	Long owes = null;
 
         if(user instanceof Worker) dtype = "Worker";
-        if(user instanceof Guest) dtype = "Guest";
+        
+        if(user instanceof Guest) {
+        	dtype = "Guest";
+        	energyProduced = ((Guest) user).getEnergyProduced();
+        	category = ((Guest) user).getCategory().toString();
+        	discount = ((Guest) user).getDiscount();
+        	owes = ((Guest) user).getOwes();
+        }
 
         dto.setDtype(dtype);
-
+        if(energyProduced != null) dto.setEnergyProduced(energyProduced);
+        if(category != null) dto.setCategory(category);
+        if(discount != null) dto.setDiscount(discount);
+        if(owes != null) dto.setOwes(owes);
+        
         return dto;
     }
 

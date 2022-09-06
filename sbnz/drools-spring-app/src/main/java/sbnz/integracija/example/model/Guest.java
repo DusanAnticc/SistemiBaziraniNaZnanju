@@ -46,6 +46,5 @@ public class Guest extends User {
 	public void setOwes(Long owes) {
 		this.owes = owes;
 	}
-	
-	
+
 }

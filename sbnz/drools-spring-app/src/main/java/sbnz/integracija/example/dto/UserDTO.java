@@ -1,5 +1,7 @@
 package sbnz.integracija.example.dto;
 
+import sbnz.integracija.example.model.enums.ManufactureType;
+
 public class UserDTO {
     private String dtype;
     private String firstName;
@@ -10,6 +12,11 @@ public class UserDTO {
     private Boolean prosecuted;
     private Boolean deleted;
     private Integer penalty;
+    
+	private Long energyProduced;
+	private String category;
+	private Long discount; 
+	private Long owes;
     
 	public UserDTO() {
 		super();
@@ -100,5 +107,39 @@ public class UserDTO {
 	public void setPenalty(Integer penalty) {
 		this.penalty = penalty;
 	}
+
+	public Long getEnergyProduced() {
+		return energyProduced;
+	}
+
+	public void setEnergyProduced(Long energyProduced) {
+		this.energyProduced = energyProduced;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public Long getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Long discount) {
+		this.discount = discount;
+	}
+
+	public Long getOwes() {
+		return owes;
+	}
+
+	public void setOwes(Long owes) {
+		this.owes = owes;
+	}
+	
+	
     
 }
