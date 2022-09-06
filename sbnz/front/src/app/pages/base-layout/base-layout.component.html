@@ -1,0 +1,6 @@
+<app-navbar-worker *ngIf="currentRole === 'Worker'"></app-navbar-worker>
+<app-navbar-guest *ngIf="currentRole === 'Guest'"></app-navbar-guest>
+<div class="container">
+    <br>
+    <router-outlet></router-outlet>
+</div>

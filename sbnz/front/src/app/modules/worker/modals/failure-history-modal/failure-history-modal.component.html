@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel"> Machine {{ machineId }} failure history </h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form class="card-form">
+        <div class="input" *ngFor="let log of logs">
+            <label><b> {{ log.message }} </b></label>
+            <label style="color: rgb(51, 51, 51);"> By: {{ log.userName }} </label>
+            <label style="color: grey;"> {{ log.executionTime | date:'M/d/yy, h:mm a' }} </label>
+        </div>
+    </form>
+  </div>

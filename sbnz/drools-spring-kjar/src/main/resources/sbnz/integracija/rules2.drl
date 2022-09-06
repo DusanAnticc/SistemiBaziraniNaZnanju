@@ -1,0 +1,56 @@
+package sbnz.integracija;
+import sbnz.integracija.example.model.Log;
+import sbnz.integracija.example.model.LogTemperatures;
+import java.util.List;
+import sbnz.integracija.example.model.SteamMachine;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+dialect 'java'
+
+rule "reportSuspiciousBehavior"
+	when
+		$machine : SteamMachine($id: id)
+		$logs : List() from collect(LogTemperatures())
+		Number($num: intValue > 2 ) from accumulate ( 
+            $gpp: LogTemperatures ($logId: steamMachine.id, $logId == $id, temperatures > 500) from $logs,
+            count($gpp)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " se pregrijala " + $num);
+end
+
+rule "MeasuredTemperatureMax"
+	agenda-group "MeasuredTemperature"
+	when
+		$maxTemp:  Number() from accumulate( LogTemperatures($t: temperatures),max($t))
+	then
+		System.out.println("max teperature is: " + $maxTemp);
+end
+
+rule "MeasuredTemperatureMin"
+	agenda-group "MeasuredTemperature"
+	when
+		$minTemp:  Number() from accumulate( LogTemperatures($t: temperatures),min($t))
+	then
+		System.out.println("min teperature is: " + $minTemp);
+end
+
+rule "reportFailures"
+	agenda-group "reportLogs"
+	when
+		$machine : SteamMachine($id: id)
+		$logs : List() from collect(Log())
+		//$pump : Pump($pid:id)
+		//$valve: Valve($vid:id)
+		Number($num: intValue>=2) from accumulate ( 
+		//dodati i provjeru za vrijeme, unazad recimo 7 dana
+		// koji dio se koliko puta kvario
+            $gpp: Log($logId: steamMachine.id, $logId == $id) from $logs,
+            count($gpp)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " se pokvarila " + $num);
+end
+

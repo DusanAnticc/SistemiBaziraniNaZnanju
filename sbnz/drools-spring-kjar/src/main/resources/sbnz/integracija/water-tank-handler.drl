@@ -1,0 +1,26 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.model.WaterTank;
+import sbnz.integracija.example.model.Pump;
+import sbnz.integracija.example.model.Valve;
+import sbnz.integracija.example.model.enums.State;
+
+rule "minerals in water - ok value open flag"
+	no-loop
+	when
+		$wt: WaterTank( mineralsInWater > 5, mineralsInWater <= 10 , $m: enoughMinerals )
+	then
+		$wt.setEnoughMinerals(true);
+		modify($wt){
+		}
+end
+
+rule "minerals in water - bad value close flag"
+	no-loop
+	when
+		$wt: WaterTank( mineralsInWater < 5, mineralsInWater >= 10 , $m: enoughMinerals )
+	then
+		$wt.setEnoughMinerals(false);
+		modify($wt){
+		}
+end

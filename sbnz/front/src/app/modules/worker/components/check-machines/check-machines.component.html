@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="card">
+      <form class="card-form">
+
+        <div style="margin-top: 20px; font-family: 'DM Sans', sans-serif;"  *ngFor="let steamMachine of steamMachines">
+            <input class="form-check-input" type="checkbox" value="{{steamMachine.id}}" id="{{steamMachine.id}}">
+            <label class="form-check-label" for="flexCheckDefault" style="margin-left: 15px;">
+                Machine ID: <b style="color: #00a3cc;"> {{ steamMachine.id }} </b>
+            </label>
+        </div>
+        <br>
+        <div class="input">
+          <input
+            type="number"
+            class="input-field"
+            id="minTemp"
+            name="minTemp"
+            required
+          />
+          <label class="input-label">Min temperature</label>
+        </div>
+        <div class="input">
+            <input
+              type="number"
+              class="input-field"
+              id="maxTemp"
+              name="maxTemp"
+              required
+            />
+            <label class="input-label">Max temperature</label>
+          </div>
+
+        <div class="action">
+          <button
+            type="button"
+            class="action-button"
+            id="submit"
+            name="submit"
+            (click)="checkMachines()"
+          >
+            Check
+          </button>
+        </div>
+      </form>
+      <div class="card-info">
+        <p> <b>Template will be generated.</b> Path: SistemiBaziraniNaZnanju\\sbnz\\drools-spring-kjar\\src\\main\\resources\\sbnz\\template\\template.drt</p>
+      </div>
+    </div>
+  </div>

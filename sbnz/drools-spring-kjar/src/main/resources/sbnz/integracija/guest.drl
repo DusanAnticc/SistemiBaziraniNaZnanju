@@ -1,0 +1,54 @@
+package sbnz.integracija;
+
+import sbnz.integracija.example.model.enums;
+
+rule "GuestCategory1"
+    when
+        $c: Guest(category == ManufactureType.NA, energyProduced > 100, energyProduced < 500)
+    then
+    	System.out.println("Category rule");
+    	modify($c) {setCategory(CustomerCategory.SMALL)}
+        
+end
+
+rule "GuestCategory2"
+    when
+        $c: Guest(category != GuestCategory.MEDIUM, energyProduced > 500, energyProduced < 1000)
+    then
+    	System.out.println("Category rule");
+    	modify($c) {setCategory(CustomerCategory.MEDIUM)}
+        
+end
+
+rule "GuestCategory3"
+    when
+        $c: Guest(category != GuestCategory.LARGE, energyProduced > 1000)
+    then
+    	System.out.println("Category rule");
+    	modify($c) {setCategory(CustomerCategory.LARGE)}
+        
+end
+
+rule "GuestDiscount1"
+    when
+        $c: Guest(category == GuestCategory.LARGE, discount > 10, $ed: energyProduced, discount > ($ed/100))
+    then
+    	System.out.println("Discount rule");
+       	modify($c) { setDiscount($ed/100) }
+end
+
+rule "GuestDiscount2"
+    when
+        $c: Guest(category == GuestCategory.LARGE, discount > 50, $ed: energyProduced, discount > ($ed/200))
+    then
+    	System.out.println("Discount rule");
+       	modify($c) { setDiscount($ed/200) }
+end
+
+rule "GuestDiscountOverflow"
+    when
+        $c: Guest(discount > 100)
+    then
+    	System.out.println("Discount overflow rule");
+       	modify($c) { setDiscount(100) }
+end

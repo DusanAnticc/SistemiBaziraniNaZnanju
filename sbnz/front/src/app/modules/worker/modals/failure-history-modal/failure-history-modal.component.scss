@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "DM Sans", sans-serif;
+	line-height: 1.5;
+	background-color: #f1f3fb;
+	padding: 0 2rem;
+}
+
+// iOS Reset 
+input {
+	appearance: none;
+	border-radius: 0;
+}
+
+.card {
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 425px;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(#999, .25);
+	padding: .15rem;
+}
+
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1rem;
+	color: red;
+	&+.input {
+		margin-top: 1rem;
+	}
+}

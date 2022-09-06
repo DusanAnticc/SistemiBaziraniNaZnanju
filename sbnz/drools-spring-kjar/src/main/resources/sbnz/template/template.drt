@@ -1,0 +1,60 @@
+template header
+idMachine
+upperLimit
+lowerLimit
+
+package sbnz.template;
+
+import sbnz.integracija.example.model.Log;
+import sbnz.integracija.example.model.LogTemperatures;
+import java.util.List;
+import sbnz.integracija.example.model.SteamMachine;
+
+template "odredjivanje-stanja-masine"
+
+rule "odredjivanje stanja masine pregrijano_@{row.rowNumber}"
+  agenda-group "Odredjivanje stanja masine"
+  no-loop true
+  salience 2
+  	when
+  	$machine : SteamMachine($id: id, id == @{idMachine})
+		$logs : List() from collect(LogTemperatures())
+		Number($num: intValue > 2 ) from accumulate ( 
+            $p1: LogTemperatures($logId: steamMachine.id, $logId == $id, temperatures >= @{upperLimit}) from $logs,
+            count($p1)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " se pregrijala " + $num);
+end
+
+rule "odredjivanje stanja masine nedovoljno zagrijana_@{row.rowNumber}"
+  agenda-group "Odredjivanje stanja masine"
+  no-loop true
+  salience 1
+  	when
+  	$machine : SteamMachine($id: id, id == @{idMachine})
+		$logs : List() from collect(LogTemperatures())
+		Number($num: intValue > 2 ) from accumulate ( 
+            $p2: LogTemperatures($logId: steamMachine.id, $logId == $id, temperatures <= @{lowerLimit}) from $logs,
+            count($p2)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " se nije dovoljno zagrijala " + $num);
+end
+
+rule "odredjivanje optimalnog stanja masine_@{row.rowNumber}"
+  agenda-group "Odredjivanje stanja masine"
+  no-loop true
+  salience -1
+  	when
+  	$machine : SteamMachine($id: id, id == @{idMachine})
+		$logs : List() from collect(LogTemperatures())
+		Number($num: intValue > 2 ) from accumulate ( 
+            $p3: LogTemperatures($logId: steamMachine.id, $logId == $id, temperatures > @{lowerLimit}, temperatures < @{upperLimit}) from $logs,
+            count($p3)
+        )
+	then
+		System.out.println("masina koja ima id:" + $id + " je optimalne temperature " + $num);
+end
+
+end template
