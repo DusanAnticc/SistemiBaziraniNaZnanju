@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.integracija.example.model.Log;
 import sbnz.integracija.example.model.LogTemperatures;
+import sbnz.integracija.example.model.ServiceLog;
 import sbnz.integracija.example.model.SteamMachine;
+import sbnz.integracija.example.model.WaterTank;
 import sbnz.integracija.example.repository.SteamMachineRepository;
 import sbnz.integracija.example.service.contract.ISteamMachineService;
 import sbnz.integracija.example.service.implementation.LogService;
+import sbnz.integracija.example.service.implementation.ServiceLogService;
 
 
 @RestController
@@ -28,6 +31,9 @@ public class LogController {
 
     @Autowired
     LogService logService;
+    
+    @Autowired
+    ServiceLogService serviceLogService;
     
     private final ISteamMachineService steamMachineService;
     
@@ -46,12 +52,15 @@ public class LogController {
       List<Log> logs = new ArrayList();
       logs = logService.findAll();
       
+      List<ServiceLog> servicelogs = new ArrayList();
+      servicelogs = serviceLogService.findAll();
+      
       List<SteamMachine> machines = new ArrayList();
       machines = steamMachineService.findAll();
       
       KieSession kieSession = kieContainer.newKieSession("reporSuspiciousBehavior");
-      
-      
+      //kieSession.getAgenda().getAgendaGroup("reportLogs").setFocus();
+      kieSession.getAgenda().getAgendaGroup("report").setFocus();
       for (int j = 0; j < machines.size(); j++) {
     	  kieSession.insert(machines.get(j));
     	}
@@ -59,6 +68,14 @@ public class LogController {
       for(Log log: logs) {
     	  kieSession.insert(log);
       }
+      
+      for(ServiceLog servicelog: servicelogs) {
+    	  kieSession.insert(servicelog);
+      }
+      
+//      WaterTank wt = machines.get(0).getWaterTank();
+//      kieSession.insert(wt);
+    
       kieSession.fireAllRules();
 
       kieSession.dispose();

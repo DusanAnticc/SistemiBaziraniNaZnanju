@@ -1,12 +1,52 @@
 package sbnz.integracija;
+import sbnz.integracija.example.model.Log;
+import sbnz.integracija.example.model.ServiceLog;
+import sbnz.integracija.example.model.SteamMachine;
+import java.time.LocalDate;
 
-import sbnz.integracija.example.facts.Item;
+rule "failure"
+	agenda-group "report"
+	salience ((100*$value))
+	when
+		$machine : SteamMachine($id: id,$vid:valve.id, malfunction==false)
+		$servicelogs : List() from collect(ServiceLog())
+		$logs : List() from collect(Log())
+		Number($value: intValue != 0 ) from accumulate ( 
+            $t: Log( $logId: steamMachine.id, $logId == $id, "stop working" memberOf message) from $logs,
+            count($t)
+        )
+        not ServiceLog($d: datum, $d.isAfter(LocalDate.now().minusDays(60)), bolest.getNaziv() == "Prehlada" ||  bolest.getNaziv() == "Groznica") from $karton 
+	then
+		System.out.println("masinini koja ima id:" + $id + " ima kritican problem - pozvati servis" );
+		modify($machine) { setMalfunction(true) }
+end
 
+rule "generator failure"
+	agenda-group "report"
+	salience ((100*$value) / 2)
+	when
+		$machine : SteamMachine($id: id,$vid:valve.id, malfunction==false)
+		$logs : List() from collect(Log())
+		Number($value: intValue >= 2) from accumulate ( 
+            $t: Log( $logId: steamMachine.id, $logId == $id, part.id == 1 || part.id == 2) from $logs,
+            count($t)
+        )
+	then
+		System.out.println("masinini koja ima id:" + $id + " se pokvario generator :" + (100*$value) / 5);
+		modify($machine) { setMalfunction(true) }
+end
 
-rule "Classify Item - Low Range"
-    when
-        $i: Item( cost <= 300, category == Category.NA )
-    then
-        $i.setCategory(Item.Category.LOW_RANGE);
-        update($i);
+rule "engine failure"
+	agenda-group "report"
+	salience ((100*$value) / 3)
+	when
+		$machine : SteamMachine($id: id,$vid:valve.id, malfunction==false)
+		$logs : List() from collect(Log())
+		Number($value: intValue >= 2) from accumulate ( 
+            $t: Log( $logId: steamMachine.id, $logId == $id, part.id == 1 || part.id == 2 || part.id == 3) from $logs,
+            count($t)
+        )
+	then
+		System.out.println("masinini koja ima id:" + $id + " se pokvario motor :" + (100*$value) / 7);
+		modify($machine) { setMalfunction(true) }
 end

@@ -73,29 +73,7 @@ public class LogTemperatureController {
     
     @RequestMapping(value = "testCompile", method = RequestMethod.GET, produces = "application/json")
     public void getLogs(@RequestBody TemplateModelDTO dto ) throws Exception {
-//
-//      List<LogTemperatures> logs = new ArrayList<LogTemperatures>();
-//      logs = logTemperatureService.findAll();
-//      
-//      List<SteamMachine> machines = new ArrayList<SteamMachine>();
-//      machines = steamMachineService.findAll();
-//
-//      KieSession kieSession = kieContainer.newKieSession("reporSuspiciousBehavior");
-      
-      
-//      
-//      for (int j = 0; j < machines.size(); j++) {
-//    	  kieSession.insert(machines.get(j));
-//    	}
-//
-//      for(LogTemperatures log: logs) {
-//    	  kieSession.insert(log);
-//      }
-//      kieSession.fireAllRules();
-//
-//      kieSession.dispose();
-    	
-    	
+
     	String compiledRules = logTemperatureService.compileTemplate(dto.getIdMachines(), dto.getLowerLimit(), dto.getUpperLimit());
     	
     	KieHelper kieHelper = new KieHelper();
