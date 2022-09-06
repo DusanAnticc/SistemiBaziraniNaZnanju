@@ -32,5 +32,14 @@ export class WorkerService {
       this.toastr.success("Template created!");
     });
   }
+
+  updateMachine(machineId: number, newSteamValue: number): void{
+    this.http.post<Request>("http://localhost:8081/api/steam-machine/update/" + machineId + "/" + newSteamValue, {
+      headers: this.headers,
+      responseType: "json",
+    }).subscribe(() => {
+      this.toastr.success("Machine " + machineId + " updated!");
+    });
+  }
   
 }

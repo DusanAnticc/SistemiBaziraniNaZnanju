@@ -45,7 +45,7 @@ public class SteamMachineController {
 	}
     
     @GetMapping(produces = "application/json")
-    public ResponseEntity<?> getLoggedInUser(){
+    public ResponseEntity<?> getAllSteamMachines(){
        
     	  List<SteamMachine> steamMachines = this.steamMachineService.findAll();
 
@@ -57,7 +57,7 @@ public class SteamMachineController {
 
     }
 
-    @RequestMapping(value = "/update/{id}/{steamValue}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/update/{id}/{steamValue}", method = RequestMethod.POST, produces = "application/json")
     public SteamMachine updateSteamMachineSteamValue(@PathVariable Long id, @PathVariable Long steamValue) throws Exception {
 
         return this.steamMachineService.updateSteamValue(id, steamValue);
