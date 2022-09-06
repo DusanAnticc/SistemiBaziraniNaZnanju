@@ -31,6 +31,8 @@ public class SteamMachine extends Machine {
     
     private State state;
     
+    private Boolean malfunction;
+    
 	public SteamMachine(Long currentSteamValue, List<Part> parts, Valve valve, Pump pump, State state, WaterTank waterTank) {
 		super();
 		this.currentSteamValue = currentSteamValue;
@@ -39,6 +41,7 @@ public class SteamMachine extends Machine {
 		this.pump = pump;
 		this.state = state;
 		this.waterTank = waterTank;
+		this.malfunction=false;
 	}
 
 	public SteamMachine() {
@@ -90,6 +93,14 @@ public class SteamMachine extends Machine {
 
 	public void setWaterTank(WaterTank waterTank) {
 		this.waterTank = waterTank;
+	}
+
+	public Boolean getMalfunction() {
+		return malfunction;
+	}
+
+	public void setMalfunction(Boolean malfunction) {
+		this.malfunction = malfunction;
 	}
 	
 	

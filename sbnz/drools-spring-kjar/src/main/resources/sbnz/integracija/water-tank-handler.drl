@@ -5,32 +5,6 @@ import sbnz.integracija.example.model.Pump;
 import sbnz.integracija.example.model.Valve;
 import sbnz.integracija.example.model.enums.State;
 
-rule "Close valve - max water value"
-	when
-		$wt: WaterTank( currentValue == maxValue, $v: inputValve )
-	then
-		$v.setIsOpen(false);
-		modify($wt){
-		setInputValve($v);
-		}
-end
-
-rule "Open valve -  water value lower than max"
-	when
-		$wt: WaterTank( currentValue < maxValue,  $c:currentValue, $v: inputValve )
-	then
-		modify($v){
-		setIsOpen(true);
-		}
-		modify($wt){
-		setCurrentValue($c + 1000),
-		setInputValve($v),
-		setCurrentValue($c + 1000);
-		}
-		System.out.println($c);
-end
-
-
 rule "minerals in water - ok value open flag"
 	no-loop
 	when

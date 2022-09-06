@@ -38,17 +38,19 @@ rule "MeasuredTemperatureMin"
 end
 
 rule "reportFailures"
+	agenda-group "reportLogs"
 	when
 		$machine : SteamMachine($id: id)
 		$logs : List() from collect(Log())
-		$pump : Pump($pid:id)
-		$valve: Valve($vid:id)
-		Number($num: intValue > 2 ) from accumulate ( 
+		//$pump : Pump($pid:id)
+		//$valve: Valve($vid:id)
+		Number($num: intValue>=2) from accumulate ( 
 		//dodati i provjeru za vrijeme, unazad recimo 7 dana
 		// koji dio se koliko puta kvario
             $gpp: Log($logId: steamMachine.id, $logId == $id) from $logs,
             count($gpp)
         )
 	then
-		System.out.println("masina koja ima id:" + $id + " se pregrijala " + $num);
+		System.out.println("masina koja ima id:" + $id + " se pokvarila " + $num);
 end
+

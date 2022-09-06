@@ -5,16 +5,17 @@ import sbnz.integracija.example.model.WaterTank;
 import sbnz.integracija.example.model.Pump;
 import sbnz.integracija.example.model.Valve;
 import sbnz.integracija.example.model.enums.State;
+import sbnz.integracija.example.model.WaterTank;
 
 rule "Open valve - high steam value"
-	no-loop
+	no-loop true
 	when
-		$sm: SteamMachine( currentSteamValue > 500 && waterTank.getEnoughMinerals() == true && waterTank.currentValue > waterTank.minValue , $v: valve, $wt: waterTank, $vv: waterTank.outputValve )
+		$sm: SteamMachine( currentSteamValue > 600 && waterTank.getEnoughMinerals() == true && waterTank.currentValue > waterTank.minValue , $v: valve, $wt: waterTank, $vv: waterTank.outputValve )
 	then
 		$v.setIsOpen(true);
 		$vv.setIsOpen(true);
 		$wt.setOutputValve($vv);
-		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v + " is open || valve " + $vv + " is open");
+		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v.getId() + " is open || valve " + $vv.getId() + " is open");
 		modify($sm){
 		setValve($v),
 		setWaterTank($wt);
@@ -22,14 +23,14 @@ rule "Open valve - high steam value"
 end
 
 rule "Close valve - low steam value"
-	no-loop
+no-loop true
 	when
-		$sm: SteamMachine( currentSteamValue <= 500 || waterTank.getEnoughMinerals() == false || waterTank.currentValue < waterTank.minValue,$v: valve , $wt: waterTank , $vv: waterTank.outputValve )
+		$sm: SteamMachine( currentSteamValue <= 600 || waterTank.getEnoughMinerals() == false || waterTank.currentValue < waterTank.minValue,$v: valve , $wt: waterTank , $vv: waterTank.outputValve )
 	then
 		$v.setIsOpen(false);
 		$vv.setIsOpen(false);
 		$wt.setOutputValve($vv);
-		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v + " is close || valve " + $vv + " is close");
+		System.out.println("teperature is: " + $sm.getCurrentSteamValue() + "|| valve: "+ $v.getId() + " is close || valve " + $vv.getId() + " is close");
 		modify($sm){
 		setValve($v),		
 		setWaterTank($wt);
@@ -37,44 +38,97 @@ rule "Close valve - low steam value"
 end
 
 rule "Open pump - valve opened"
-	no-loop
+	no-loop true
 	when
 		$sm: SteamMachine(valve.getIsOpen() == true,$v: valve, $p: pump )
 	then
 		$p.setIsOpen(true);
-		System.out.println("valve: "+ $v + " is open || pump " + $p + " is open");
+		System.out.println("valve: "+ $v.getId() + " is open || pump " + $p.getId() + " is open");
 		modify($sm){
 		setPump($p);
 		}
 end
 
 rule "Close pump - valve closed"
-	no-loop
+	no-loop true
 	when
 		$sm: SteamMachine( valve.getIsOpen() == false,$v: valve, $p: pump )
 	then
 		$p.setIsOpen(false);
-		System.out.println("valve: "+ $v + " is close || pump " + $p + " is close");
+		System.out.println("valve: "+ $v.getId() + " is close || pump " + $p.getId() + " is close");
 		modify($sm){
 		setPump($p);
 		}
 end
 
 
-//rule "Close pump and valve - steam machine corrupted"
-//	no-loop
-//	when
-//		$sm: SteamMachine( state == State.CORRUPT ,$p: pump, $v: valve )
-//	then
-//	System.out.println("machine "+ $sm + "is corruped - close all pumps and vents");
-//		modify($p){
-//		setIsOpen(false);
-//		}
-//		modify($v){
-//		setIsOpen(false);
-//		}
-//		modify($sm){
-//		setPump($p),
-//		setValve($v);
-//		}
-//end
+rule "Open valve and pump -  watertank reduce level"
+	when
+		$sm: SteamMachine($id:id,valve.isOpen == true, pump.isOpen == true, $wtId:waterTank.id, $ct:currentSteamValue)
+		$wt: WaterTank( id == $wtId , $cv:currentValue, $cv>=minValue)
+	then
+		System.out.println("kolicina vode u rezervoaru prije: " + $cv);
+		System.out.println("temperatura masine je:"+ $id +"=" + $ct);
+		modify($wt){
+		setCurrentValue($cv-1000)
+		}
+		modify($sm){
+		setCurrentSteamValue($ct-5)
+		}
+end
+
+rule "Close valve - min water value"
+	no-loop true
+	when
+		$sm: SteamMachine($sv:valve, $sp:pump, $sv.isOpen == true , $sp.isOpen == true)
+		$wt: WaterTank( currentValue <= minValue, $v: inputValve )
+	then
+		$v.setIsOpen(false);
+		$sv.setIsOpen(false);
+		$sp.setIsOpen(false);
+		modify($wt){
+		setInputValve($v);
+		}
+		modify($sm){
+		setPump($sp),
+		setValve($sv);
+		}
+end
+
+
+rule "Open valve -  water value lower than max"
+	salience -5
+	no-loop true
+	when
+		$wt: WaterTank( currentValue < maxValue, $v: inputValve )
+	then
+		$v.setIsOpen(true);
+		modify($wt){
+		setInputValve($v);
+		}
+		System.out.println("valve: "+$v.getId()+ " je otvoren");
+end
+
+rule "Close valve -  water value equal to max"
+	salience -5
+	no-loop true
+	when
+		$wt: WaterTank( currentValue >= maxValue, $v: inputValve )
+	then
+		$v.setIsOpen(false);
+		modify($wt){
+		setInputValve($v);
+		}
+		System.out.println("valve: "+$v.getId()+ " je zatvoren");
+end
+
+rule "Open valve -  water value lower than max, fill"
+salience -5
+	when
+		$wt: WaterTank( currentValue < maxValue, inputValve.isOpen==true ,  $c:currentValue )
+	then
+		modify($wt){
+		setCurrentValue($c + 1000)
+		}
+		System.out.println("(PUNJENJE) kolicina vode u rezervoaru: " + $c);
+end
