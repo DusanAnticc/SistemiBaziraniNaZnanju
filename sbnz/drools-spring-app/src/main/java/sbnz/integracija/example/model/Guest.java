@@ -12,4 +12,6 @@ public class Guest extends User {
 	private ManufactureType category;
 	
 	private Long discount; 
+	
+	private Long owes;
 }
