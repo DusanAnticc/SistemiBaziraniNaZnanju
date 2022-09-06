@@ -62,6 +62,10 @@ public class LogTemperatureController {
       for(LogTemperatures log: logs) {
     	  kieSession.insert(log);
       }
+      
+      Long millis = new java.util.Date().getTime();
+      kieSession.insert(millis);
+      
       kieSession.fireAllRules();
 
       kieSession.dispose();

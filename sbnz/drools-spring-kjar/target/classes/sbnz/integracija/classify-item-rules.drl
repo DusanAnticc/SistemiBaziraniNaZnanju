@@ -11,11 +11,11 @@ rule "failure"
 		$machine : SteamMachine($id: id,$vid:valve.id, malfunction==false)
 		$servicelogs : List() from collect(ServiceLog())
 		$logs : List() from collect(Log())
+		$date : Long()
 		Number($value: intValue != 0 ) from accumulate ( 
             $t: Log( $logId: steamMachine.id, $logId == $id, "stop working" memberOf message) from $logs,
             count($t)
         )
-        
 	then
 		System.out.println("masinini koja ima id:" + $id + " ima kritican problem - pozvati servis" );
 		modify($machine) { setMalfunction(true) }
