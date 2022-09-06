@@ -19,29 +19,34 @@ export class LoginComponent {
   ) { }
 
   logIn() {
-    const auth: Login = {
-      username: (<HTMLInputElement>document.getElementById("username")).value,
-      password: (<HTMLInputElement>document.getElementById("password")).value,
-    };
+    if ((<HTMLInputElement>document.getElementById("username")).value == '' ||
+    (<HTMLInputElement>document.getElementById("password")).value == '') {
+      this.toastrService.error('Username/password field is empty!');
+    } else {
+      const auth: Login = {
+        username: (<HTMLInputElement>document.getElementById("username")).value,
+        password: (<HTMLInputElement>document.getElementById("password")).value,
+      };
 
-    this.authService.login(auth).subscribe({
-      next: (result) => {
-        localStorage.setItem('userToken', JSON.stringify(result));
-        const tokenString = localStorage.getItem('userToken');
+      this.authService.login(auth).subscribe({
+        next: (result) => {
+          localStorage.setItem('userToken', JSON.stringify(result));
+          const tokenString = localStorage.getItem('userToken');
 
-        if (tokenString) {
-          const token: Token = JSON.parse(tokenString);
-          this.authService.setCurrentUser(token);
+          if (tokenString) {
+            const token: Token = JSON.parse(tokenString);
+            this.authService.setCurrentUser(token);
 
-          const role = this.authService.getCurrentUser()?.dtype!;
+            const role = this.authService.getCurrentUser()?.dtype!;
 
-          if(role === "Worker") this.router.navigate(["worker/machines"]);
-        }
-      },
-      error: (error) => {
-        if (error.status === 400) this.toastrService.error('Bad credentials!');
-      },
-    });
+            if(role === "Worker") this.router.navigate(["worker/machines"]);
+          }
+        },
+        error: (error) => {
+          if (error.status === 400) this.toastrService.error('Bad credentials!');
+        },
+      });
+    }
   }
 
 }

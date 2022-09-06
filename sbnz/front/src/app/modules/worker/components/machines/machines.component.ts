@@ -32,8 +32,8 @@ export class MachinesComponent implements OnInit {
     });
   }
 
-  callRepairman() {
-
+  callRepairman(steamMachineId: number) {
+    this.workerService.callRepairman(steamMachineId);
   }
 
   failureHistory(steamMachineId: number) {
