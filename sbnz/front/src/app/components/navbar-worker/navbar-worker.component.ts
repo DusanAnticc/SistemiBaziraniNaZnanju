@@ -19,4 +19,12 @@ export class NavbarWorkerComponent {
     this.router.navigate(["login"]);
   }
 
+  allMachines() {
+    this.router.navigate(["worker/machines"]);
+  }
+
+  checkMachines() {
+    this.router.navigate(["worker/check-machines"]);
+  }
+
 }

@@ -71,7 +71,7 @@ public class LogTemperatureController {
       return new ResponseEntity<>(logs, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "testCompile", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "testCompile", method = RequestMethod.POST, produces = "application/json")
     public void getLogs(@RequestBody TemplateModelDTO dto ) throws Exception {
 //
 //      List<LogTemperatures> logs = new ArrayList<LogTemperatures>();
