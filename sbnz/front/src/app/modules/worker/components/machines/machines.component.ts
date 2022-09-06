@@ -24,7 +24,6 @@ export class MachinesComponent implements OnInit {
   ngOnInit(): void {
     this.workerService.getAllStramMachines().subscribe((response) => {
       this.steamMachines = response;
-      console.log(this.steamMachines)
     });
   }
 
@@ -33,8 +32,8 @@ export class MachinesComponent implements OnInit {
     });
   }
 
-  callRepairman() {
-
+  callRepairman(steamMachineId: number) {
+    this.workerService.callRepairman(steamMachineId);
   }
 
   failureHistory(steamMachineId: number) {

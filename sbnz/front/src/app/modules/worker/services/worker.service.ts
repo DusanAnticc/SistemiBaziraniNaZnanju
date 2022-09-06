@@ -5,6 +5,7 @@ import { SteamMachine } from 'src/app/models/SteamMachine';
 import { ToastrService } from 'ngx-toastr';
 import { TemplateModel } from 'src/app/models/TemplateModel';
 import { Log } from 'src/app/models/Log';
+import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +51,12 @@ export class WorkerService {
     });
   }
   
+  callRepairman(machineId: number): void{
+    this.http.post<Request>("http://localhost:8081/api/service-log/" + machineId, {
+      headers: this.headers,
+      responseType: "json",
+    }).subscribe(() => {
+      this.toastr.success("Repairman called!");
+    });
+  }
 }

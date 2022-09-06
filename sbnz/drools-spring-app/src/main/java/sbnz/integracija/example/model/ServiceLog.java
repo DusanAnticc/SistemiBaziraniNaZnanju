@@ -23,22 +23,17 @@ public class ServiceLog {
     private Long id;
 
 	private Long executionTime;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "part_id")
-    private Part part;
     
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private SteamMachine steamMachine;
     
     public ServiceLog() {
 	}
 
-	public ServiceLog(Long id, Long executionTime, Part part, SteamMachine steamMachine) {
+	public ServiceLog(Long id, Long executionTime, SteamMachine steamMachine) {
 		super();
 		this.id = id;
 		this.executionTime = executionTime;
-		this.part = part;
 		this.steamMachine = steamMachine;
 	}
 
@@ -56,14 +51,6 @@ public class ServiceLog {
 
 	public void setExecutionTime(Long executionTime) {
 		this.executionTime = executionTime;
-	}
-
-	public Part getPart() {
-		return part;
-	}
-
-	public void setPart(Part part) {
-		this.part = part;
 	}
 
 	public SteamMachine getSteamMachine() {

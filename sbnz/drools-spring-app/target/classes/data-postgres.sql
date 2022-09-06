@@ -54,7 +54,7 @@ INSERT INTO log (message, user_name, execution_time, part_id, steam_machine_id) 
 
 INSERT INTO log (message, user_name, execution_time, part_id, steam_machine_id) VALUES ('rotor stuck', 'Mirko', 1662225219219 , 1 , 3 );
 
-INSERT INTO service_log (execution_time, part_id, steam_machine_id) VALUES (1662225219220 , 1 , 1 );
+INSERT INTO service_log (execution_time, steam_machine_id) VALUES (1662225219220, 1 );
 
 INSERT INTO log_temperatures(steam_machine_id, temperatures) VALUES (1, 450);
 
