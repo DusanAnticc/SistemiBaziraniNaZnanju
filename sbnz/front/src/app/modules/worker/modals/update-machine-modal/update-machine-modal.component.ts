@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -29,7 +29,7 @@ export class UpdateMachineModalComponent {
     } else {
       this.workerService.updateMachine(this.machine.id, Number((<HTMLInputElement>document.getElementById("steamValue")).value))
       this.modalRef.close();
-      this.router.navigate(["worker/machines"]);
+      window.location.reload();
     }
   }
 

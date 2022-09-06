@@ -3,6 +3,7 @@ import { SteamMachine } from 'src/app/models/SteamMachine';
 import { WorkerService } from '../../services/worker.service';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { UpdateMachineModalComponent } from '../../modals/update-machine-modal/update-machine-modal.component';
+import { FailureHistoryModalComponent } from '../../modals/failure-history-modal/failure-history-modal.component';
 
 @Component({
   selector: 'app-machines',
@@ -36,8 +37,9 @@ export class MachinesComponent implements OnInit {
 
   }
 
-  failureHistory() {
-
+  failureHistory(steamMachineId: number) {
+    this.modalRef = this.modalService.open(FailureHistoryModalComponent, { data: { machineId: steamMachineId }
+    });
   }
 
 }

@@ -11,4 +11,6 @@ public interface ILogService {
     Log findById(Long id);
 
     Log create(Log log);
+    
+    List<Log> findAllByMachineId(Long machineId);
 }

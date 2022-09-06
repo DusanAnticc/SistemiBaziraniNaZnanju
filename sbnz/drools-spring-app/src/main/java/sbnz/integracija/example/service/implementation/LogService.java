@@ -5,6 +5,7 @@ import sbnz.integracija.example.repository.LogRepository;
 import sbnz.integracija.example.service.contract.ILogService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,4 +31,18 @@ public class LogService implements ILogService {
     public Log create(Log log) {
         return this.logRepository.save(log);
     }
+
+	@Override
+	public List<Log> findAllByMachineId(Long machineId) {
+		List<Log> foundLogs = new ArrayList<Log>();
+		
+		List<Log> logs = this.findAll();
+		
+		for (Log log: logs) {
+			if (log.getSteamMachine().getId() == machineId) {
+				foundLogs.add(log);
+			}
+		}
+		return foundLogs;
+	}
 }

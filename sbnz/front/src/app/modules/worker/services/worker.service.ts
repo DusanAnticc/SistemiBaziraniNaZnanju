@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SteamMachine } from 'src/app/models/SteamMachine';
 import { ToastrService } from 'ngx-toastr';
 import { TemplateModel } from 'src/app/models/TemplateModel';
+import { Log } from 'src/app/models/Log';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,13 @@ export class WorkerService {
       responseType: "json",
     }).subscribe(() => {
       this.toastr.success("Machine " + machineId + " updated!");
+    });
+  }
+
+  getAllLogsForMachine(machineId: number): Observable<Log[]>{
+    return this.http.get<Log[]>("http://localhost:8081/api/log/machine/" + machineId, {
+      headers: this.headers,
+      responseType: "json",
     });
   }
   

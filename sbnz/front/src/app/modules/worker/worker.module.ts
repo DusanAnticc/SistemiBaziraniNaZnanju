@@ -6,12 +6,14 @@ import { WorkerRoutes } from './worker.routes';
 import { MachinesComponent } from './components/machines/machines.component';
 import { CheckMachinesComponent } from './components/check-machines/check-machines.component';
 import { UpdateMachineModalComponent } from './modals/update-machine-modal/update-machine-modal.component';
+import { FailureHistoryModalComponent } from './modals/failure-history-modal/failure-history-modal.component';
 
 @NgModule({
   declarations: [
     MachinesComponent,
     CheckMachinesComponent,
-    UpdateMachineModalComponent
+    UpdateMachineModalComponent,
+    FailureHistoryModalComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { UpdateMachineModalComponent } from './modals/update-machine-modal/updat
     RouterModule.forChild(WorkerRoutes)
   ],
   entryComponents: [
-    UpdateMachineModalComponent
+    UpdateMachineModalComponent,
+    FailureHistoryModalComponent
   ]
 })
 export class WorkerModule { }
