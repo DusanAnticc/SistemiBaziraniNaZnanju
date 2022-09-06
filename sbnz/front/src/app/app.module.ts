@@ -12,13 +12,19 @@ import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { WorkerModule } from './modules/worker/worker.module';
+import { GuestModule } from './modules/guest/guest.module';
+import { NavbarWorkerComponent } from './components/navbar-worker/navbar-worker.component';
+import { NavbarGuestComponent } from './components/navbar-guest/navbar-guest.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseLayoutComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NavbarWorkerComponent,
+    NavbarGuestComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +32,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     HttpClientModule,
     BrowserAnimationsModule,
     OverlayModule,
+    GuestModule, 
+    WorkerModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
     })

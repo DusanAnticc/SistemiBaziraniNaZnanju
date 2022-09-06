@@ -15,7 +15,7 @@ rule "failure"
             $t: Log( $logId: steamMachine.id, $logId == $id, "stop working" memberOf message) from $logs,
             count($t)
         )
-        not ServiceLog($d: datum, $d.isAfter(LocalDate.now().minusDays(60)), bolest.getNaziv() == "Prehlada" ||  bolest.getNaziv() == "Groznica") from $karton 
+        
 	then
 		System.out.println("masinini koja ima id:" + $id + " ima kritican problem - pozvati servis" );
 		modify($machine) { setMalfunction(true) }

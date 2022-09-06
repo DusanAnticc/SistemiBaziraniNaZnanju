@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  errorMessage = '';
 
   constructor(
     private authService: AuthService,
@@ -19,7 +18,7 @@ export class LoginComponent {
     private toastrService: ToastrService
   ) { }
 
-  submit() {
+  logIn() {
     const auth: Login = {
       username: (<HTMLInputElement>document.getElementById("username")).value,
       password: (<HTMLInputElement>document.getElementById("password")).value,
@@ -29,13 +28,14 @@ export class LoginComponent {
       next: (result) => {
         localStorage.setItem('userToken', JSON.stringify(result));
         const tokenString = localStorage.getItem('userToken');
+
         if (tokenString) {
           const token: Token = JSON.parse(tokenString);
           this.authService.setCurrentUser(token);
 
           const role = this.authService.getCurrentUser()?.dtype!;
 
-          // if(role === "Admin") this.router.navigate(["admin/"]);
+          if(role === "Worker") this.router.navigate(["worker/machines"]);
         }
       },
       error: (error) => {

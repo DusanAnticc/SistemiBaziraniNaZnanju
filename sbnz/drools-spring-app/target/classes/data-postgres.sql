@@ -86,10 +86,11 @@ INSERT INTO role (name) values ('ROLE_WORKER');
 
 INSERT INTO role (name) values ('ROLE_GUEST');
 
---INSERT INTO users (first_name, last_name, username, email, password, deleted, role_id)
---values ('Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '1234', false, 1);
---
---INSERT INTO users (first_name, last_name, username, email, password, deleted, role_id)
---values ('Milana', 'Milosevic', 'milana', 'milana@gmail.com', '1234', false, 2);
+-- SIFRE: 1234
+INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty)
+values ('Worker', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 1, false, 0);
+
+INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty)
+values ('Guest', 'Milana', 'Milosevic', 'milana', 'milana@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 2, false, 0);
 
 

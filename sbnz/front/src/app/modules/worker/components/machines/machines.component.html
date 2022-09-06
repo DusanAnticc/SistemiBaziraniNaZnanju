@@ -1,0 +1,56 @@
+<div class="row card-group">
+    <div class="col-3" *ngFor="let steamMachine of steamMachines">
+        <div id="container">
+            <div class="product-details">
+                <br/>
+                <h2> ID: {{ steamMachine.id}} </h2>
+                <p class="information"> <b>Steam value:</b> {{ steamMachine.currentSteamValue }} </p>
+
+                <button
+                type="button"
+                class="btn btn-info"
+                id="orderButton"
+                (click)="update(steamMachine)"
+                >
+                UPDATE
+                </button>
+                <br>
+                <button
+                type="button"
+                class="btn btn-secondary"
+                id="orderButton"
+                (click)="callRepairman()"
+                >
+                CALL REPAIRMAN
+                </button>
+                <br>    
+                <button
+                type="button"
+                class="btn btn-warning"
+                id="orderButton"
+                (click)="failureHistory(steamMachine.id)"
+                >
+                FAILURE HISTORY
+                </button>
+            </div>
+
+            <div id="productImage" class="product-image">
+                <div class="info">
+                <br>
+                  <h2>More information</h2>
+                  <br>
+                  <ul>
+                    <li><strong>Brand: </strong> {{ steamMachine.brand }} </li>
+                    <br>
+                    <li><strong>Model: </strong> {{ steamMachine.model }} </li>
+                    <br>
+                    <li><strong>Year: </strong> {{ steamMachine.year }} </li>
+                    <br>
+                    <li><strong>State: </strong> {{ steamMachine.state }} </li>
+
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

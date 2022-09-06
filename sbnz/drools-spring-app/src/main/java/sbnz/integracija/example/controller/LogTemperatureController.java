@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import sbnz.integracija.example.dto.TemplateModelDTO;
 import sbnz.integracija.example.model.LogTemperatures;
 import sbnz.integracija.example.model.SteamMachine;
-import sbnz.integracija.example.model.template.TemplateModel;
-import sbnz.integracija.example.service.contract.ISteamMachineService;
 import sbnz.integracija.example.service.implementation.LogTemperatureService;
 import sbnz.integracija.example.service.implementation.SteamMachineService;
 
@@ -71,7 +69,7 @@ public class LogTemperatureController {
       return new ResponseEntity<>(logs, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value = "testCompile", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "testCompile", method = RequestMethod.POST, produces = "application/json")
     public void getLogs(@RequestBody TemplateModelDTO dto ) throws Exception {
 
     	String compiledRules = logTemperatureService.compileTemplate(dto.getIdMachines(), dto.getLowerLimit(), dto.getUpperLimit());
