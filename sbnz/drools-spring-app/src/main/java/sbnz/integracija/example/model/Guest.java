@@ -38,6 +38,7 @@ public class Guest extends User {
 	public void setDiscount(Long discount) {
 		this.discount = discount;
 	}
+	
 
 	public Long getOwes() {
 		return owes;

@@ -21,9 +21,7 @@ public class GuestService implements IGuestService {
     public Long PayBill(Long userId)
     {
     	Guest user = (Guest) userRepository.findById(userId).orElse(null);
-    	System.out.println(user);
-    	System.out.println(user.getCategory());
-    	System.out.println(user.getDiscount());
+
     	if(user.getCategory()==null)
     	{
     		Long owes = user.getOwes();
@@ -38,5 +36,14 @@ public class GuestService implements IGuestService {
     		userRepository.save(user);
     		return owes;
     	}
+    }
+    
+    @Override
+    public Long setProducedEnergy(Long userId, Long value)
+    {
+    	Guest user = (Guest) userRepository.findById(userId).orElse(null);
+    	user.setEnergyProduced(value);
+    	userRepository.save(user);
+    	return value;
     }
 }

@@ -2,7 +2,7 @@ package sbnz.integracija;
 import sbnz.integracija.example.model.Log;
 import sbnz.integracija.example.model.ServiceLog;
 import sbnz.integracija.example.model.SteamMachine;
-import java.time.LocalDate;
+import java.time.*;
 
 rule "failure"
 	agenda-group "report"
@@ -11,10 +11,13 @@ rule "failure"
 		$machine : SteamMachine($id: id,$vid:valve.id, malfunction==false)
 		$servicelogs : List() from collect(ServiceLog())
 		$logs : List() from collect(Log())
-		$date : Long()
-		Number($value: intValue != 0 ) from accumulate ( 
-            $t: Log( $logId: steamMachine.id, $logId == $id, "stop working" memberOf message) from $logs,
+        Number($value: intValue != 0 ) from accumulate(
+        	$t: Log( $logId: steamMachine.id, $logId == $id, "stop working" memberOf message) from $logs,
             count($t)
+        )
+    	Number($val: intValue != 0 ) from accumulate ( 
+	        $t: ServiceLog( $logId: steamMachine.id, $logId == $id, executionTime < (System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 1)) from $servicelogs,
+	        count($t)
         )
 	then
 		System.out.println("masinini koja ima id:" + $id + " ima kritican problem - pozvati servis" );

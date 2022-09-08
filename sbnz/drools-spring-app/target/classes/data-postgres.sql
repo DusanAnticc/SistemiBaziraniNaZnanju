@@ -54,7 +54,7 @@ INSERT INTO log (message, user_name, execution_time, part_id, steam_machine_id) 
 
 INSERT INTO log (message, user_name, execution_time, part_id, steam_machine_id) VALUES ('rotor stuck', 'Mirko', 1662225219219 , 1 , 3 );
 
-INSERT INTO service_log (execution_time, steam_machine_id) VALUES (1662225219220, 1 );
+INSERT INTO service_log (execution_time, steam_machine_id) VALUES (1662534392120, 1 );
 
 INSERT INTO log_temperatures(steam_machine_id, temperatures) VALUES (1, 450);
 
@@ -90,7 +90,7 @@ INSERT INTO role (name) values ('ROLE_GUEST');
 INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty)
 values ('Worker', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 1, false, 0);
 
-INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty, discount, category,owes)
-values ('Guest', 'Milana', 'Milosevic', 'milana', 'milana@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 2, false, 0 , 10, 1,500);
+INSERT INTO users (dtype, first_name, last_name, username, email, password, deleted, role_id, prosecuted, penalty, discount, category,owes,energy_produced)
+values ('Guest', 'Milana', 'Milosevic', 'milana', 'milana@gmail.com', '$2a$12$y8KdnPdbPx39blqlCZsQR.fWCJfKA/vws626apsRnuKj2LMyWdwpq', false, 2, false, 0 , 10, 1,500,600);
 
 

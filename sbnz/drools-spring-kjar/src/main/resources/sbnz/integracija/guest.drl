@@ -1,54 +1,61 @@
 package sbnz.integracija;
 
-import sbnz.integracija.example.model.enums;
+import sbnz.integracija.example.model.enums.ManufactureType;
+import sbnz.integracija.example.model.Guest;
 
 rule "GuestCategory1"
+agenda-group "guest"
     when
-        $c: Guest(category == ManufactureType.NA, energyProduced > 100, energyProduced < 500)
+        $c: Guest(category == null, energyProduced > 100, $cat:ManufactureType.SMALL, energyProduced < 500)
     then
-    	System.out.println("Category rule");
-    	modify($c) {setCategory(CustomerCategory.SMALL)}
+    	System.out.println("Category rule SMALL");
+    	modify($c) {setCategory($cat)}
         
 end
 
 rule "GuestCategory2"
+agenda-group "guest"
     when
-        $c: Guest(category != GuestCategory.MEDIUM, energyProduced > 500, energyProduced < 1000)
+        $c: Guest(category != ManufactureType.MEDIUM, $cat:ManufactureType.MEDIUM, energyProduced > 500, energyProduced < 1000)
     then
-    	System.out.println("Category rule");
-    	modify($c) {setCategory(CustomerCategory.MEDIUM)}
+    	System.out.println("Category rule MEDIUM");
+    	modify($c) {setCategory($cat)}
         
 end
 
 rule "GuestCategory3"
+agenda-group "guest"
     when
-        $c: Guest(category != GuestCategory.LARGE, energyProduced > 1000)
+        $c: Guest(category != ManufactureType.LARGE,  $cat:ManufactureType.LARGE, energyProduced > 1000)
     then
-    	System.out.println("Category rule");
-    	modify($c) {setCategory(CustomerCategory.LARGE)}
+    	System.out.println("Category rule LARGE");
+    	modify($c) {setCategory($cat)}
         
 end
 
 rule "GuestDiscount1"
+agenda-group "guest"
     when
-        $c: Guest(category == GuestCategory.LARGE, discount > 10, $ed: energyProduced, discount > ($ed/100))
+        $c: Guest(category == ManufactureType.LARGE, discount > 10, $ed: energyProduced, discount > ($ed/100))
     then
     	System.out.println("Discount rule");
        	modify($c) { setDiscount($ed/100) }
 end
 
 rule "GuestDiscount2"
+agenda-group "guest"
     when
-        $c: Guest(category == GuestCategory.LARGE, discount > 50, $ed: energyProduced, discount > ($ed/200))
+        $c: Guest(category == ManufactureType.LARGE, discount > 50, $ed: energyProduced, discount > ($ed/200))
     then
     	System.out.println("Discount rule");
        	modify($c) { setDiscount($ed/200) }
 end
 
 rule "GuestDiscountOverflow"
+agenda-group "guest"
     when
         $c: Guest(discount > 100)
     then
     	System.out.println("Discount overflow rule");
-       	modify($c) { setDiscount(100) }
+       	modify($c) { setDiscount(Long.valueOf(100)) }
 end
